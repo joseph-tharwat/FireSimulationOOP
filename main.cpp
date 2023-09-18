@@ -1,69 +1,58 @@
 
-//to compile without any error
-//g++ main.cpp -lmingw32 -lSDL2main -lSDL2
+//To compile without any error
+//g++ main.cpp screen.cpp particles.cpp swarm.cpp -lmingw32 -lSDL2main -lSDL2
 
 #include<iostream>
+#include<math.h>
+#include<time.h>
+
 #include "include\SDL.h"
+
+#include"main.h"
+#include "screen.h"
+#include"particles.h"
+#include "swarm.h"
 
 using namespace std;
 
 int main(int argc, char* argv[])
-{
-    int windowWidth = 500;
-    int windowHieght = 600;
+{   
+    srand(time(NULL));
 
-
-    if(SDL_Init(SDL_INIT_VIDEO)<0)
-    {
-        return -1;
-    }
+    screen* mainScreen = new screen("fire simulation", SCREEN_WIDTH, SCREEN_HEIGHT);
+    swarm *mySwarm = new swarm(PARTICLES_NUMBER);
     
-    SDL_Window* my_window = SDL_CreateWindow("fire",
-                                      SDL_WINDOWPOS_UNDEFINED,
-                                      SDL_WINDOWPOS_UNDEFINED,
-                                      windowWidth,
-                                      windowHieght,
-                                      SDL_WINDOW_SHOWN);
-    if(my_window == NULL)
-    {
-        return -2;
-    }   
-    bool quiteFlage=false; 
-    SDL_Event event;
-
-    SDL_Renderer *my_renderer = SDL_CreateRenderer(my_window,
-                                                   -1,
-                                                   SDL_RENDERER_PRESENTVSYNC);
-    SDL_Texture *my_texture = SDL_CreateTexture(my_renderer,
-                                                SDL_PIXELFORMAT_RGBA8888,
-                                                SDL_TEXTUREACCESS_STATIC,
-                                                windowWidth,
-                                                windowHieght);
-
-    int *buffer = new int[windowWidth*windowHieght];
-    memset(buffer, 255, windowWidth*windowHieght*sizeof(int));
-    
-    SDL_UpdateTexture(my_texture, NULL, buffer, windowWidth*sizeof(int));
-    SDL_RenderClear(my_renderer);
-    SDL_RenderCopy(my_renderer, my_texture,NULL,NULL);
-    SDL_RenderPresent(my_renderer);
-
-    while(quiteFlage == false)
-    {
-        while(SDL_PollEvent(&event))
+    int color = 255;
+    while(true)
+    {   
+        // int color = SDL_GetTicks();
+        // color = 1+sin(color*0.001)*128;
+        
+        // for(int i = 0; i < mainScreen->getWidth(); i++)
+        // {
+        //     for(int j = 0; j < mainScreen->getWidth(); j++)
+        //     {
+        //         mainScreen->setPixel(i,j,color,color,color);
+        //     }
+        // }
+        mainScreen->clear();
+        mySwarm->update(0.001);
+        for(int i=0; i<mySwarm->getCount(); i++)
         {
-            if(event.type == SDL_QUIT)
-            {
-                quiteFlage = true;   
-            }
+            mainScreen->setPixel(mySwarm->getIndexParticle(i).getXposition()*mainScreen->getWidth(),
+                                 mySwarm->getIndexParticle(i).getYposition()*mainScreen->getHieght(),
+                                 color,color,color);
         }
+        
 
+        mainScreen->update();
+        
+        if(mainScreen->eventProcess() ==false)
+        {
+            break;
+        } 
     }
-
-    SDL_DestroyTexture(my_texture);
-    SDL_DestroyRenderer(my_renderer);
-    SDL_DestroyWindow(my_window);
-    SDL_Quit();
-    cout<<"hello"<<endl;
+    
+    mainScreen->close();
     return 0;
 }
