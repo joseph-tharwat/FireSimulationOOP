@@ -19,10 +19,16 @@ int main(int argc, char* argv[])
 {   
     srand(time(NULL));
 
-    screen* mainScreen = new screen("fire simulation", SCREEN_WIDTH, SCREEN_HEIGHT);
+    screen* mainScreen = new screen(SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT);
     swarm *mySwarm = new swarm(PARTICLES_NUMBER);
     
-    int color = 255;
+    int colorR = (1.0*rand()/RAND_MAX) * 255;
+    int colorG = (1.0*rand()/RAND_MAX) * 255;
+    int colorB = (1.0*rand()/RAND_MAX) * 255;
+    // int colorR = 255;
+    // int colorG = 255;
+    // int colorB = 255;
+    int i = 0;
     while(true)
     {   
         // int color = SDL_GetTicks();
@@ -35,16 +41,20 @@ int main(int argc, char* argv[])
         //         mainScreen->setPixel(i,j,color,color,color);
         //     }
         // }
-        mainScreen->clear();
-        mySwarm->update(0.001);
+        
+        
+        // mainScreen->clear();
+        mySwarm->update();
         for(int i=0; i<mySwarm->getCount(); i++)
         {
             mainScreen->setPixel(mySwarm->getIndexParticle(i).getXposition()*mainScreen->getWidth(),
                                  mySwarm->getIndexParticle(i).getYposition()*mainScreen->getHieght(),
-                                 color,color,color);
+                                 colorR,colorG,colorB);
         }
         
-
+        // if(i>500)
+        mainScreen->boxBlur();
+        // i++;
         mainScreen->update();
         
         if(mainScreen->eventProcess() ==false)

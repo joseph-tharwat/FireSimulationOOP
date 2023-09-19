@@ -8,12 +8,16 @@ class particles
 private:
     double x;
     double y;
+    double speed;
+    double direction;
+    // double xSpeed;
+    // double ySpeed;
 public:
-    particles();
+    particles(bool random = false);
     particles(double xx, double yy);
     ~particles();
     
-    void update(double speed=0.01);
+    void update();
 
     double getXposition();
     double getYposition();

@@ -19,11 +19,11 @@ int swarm::getCount()
     return particlesCount;
 }
 
-void swarm::update(double speed)
+void swarm::update()
 {
     for(int i=0; i< particlesCount; i++)
     {
-        particlesArray[i].update(speed);
+        particlesArray[i].update();
     }
 }
 

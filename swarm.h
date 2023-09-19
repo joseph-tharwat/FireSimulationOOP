@@ -13,7 +13,7 @@ class swarm
         swarm(int particlesNumber);
         ~swarm();
 
-        void update(double speed = 0.01);
+        void update();
         int getCount();
         particles *getParticles();
         particles getIndexParticle(int index);
