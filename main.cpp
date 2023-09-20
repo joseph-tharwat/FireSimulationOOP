@@ -22,25 +22,27 @@ int main(int argc, char* argv[])
     screen* mainScreen = new screen(SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT);
     swarm *mySwarm = new swarm(PARTICLES_NUMBER);
     
-    int colorR = (1.0*rand()/RAND_MAX) * 255;
-    int colorG = (1.0*rand()/RAND_MAX) * 255;
-    int colorB = (1.0*rand()/RAND_MAX) * 255;
-    // int colorR = 255;
-    // int colorG = 255;
-    // int colorB = 255;
+    Uint32 colorR = (1.0*rand()/RAND_MAX) * 255;
+    Uint32 colorG = (1.0*rand()/RAND_MAX) * 255;
+    Uint32 colorB = (1.0*rand()/RAND_MAX) * 255;
+    Uint32 color = (1.0*rand()/RAND_MAX) * 255;
+    cout<<colorR<<" "<<colorG<<" "<<colorB<<endl;
+    // Uint8 colorR = 255;
+    // Uint8 colorG = 255;
+    // Uint8 colorB = 255;
     int i = 0;
     while(true)
     {   
-        // int color = SDL_GetTicks();
-        // color = 1+sin(color*0.001)*128;
-        
-        // for(int i = 0; i < mainScreen->getWidth(); i++)
-        // {
-        //     for(int j = 0; j < mainScreen->getWidth(); j++)
-        //     {
-        //         mainScreen->setPixel(i,j,color,color,color);
-        //     }
-        // }
+        //  Uint8 color = SDL_GetTicks();
+        //  Uint8 colorR = 1+sin(color*0.001)*128;
+        //  Uint8 colorG = 1+sin(color*0.001)*128;;
+        //  Uint8 colorB = 1+sin(color*0.001)*128;
+        //  color++;
+        //  int colorG = SDL_GetTicks();
+        //  colorG = 1+sin(colorG*0.001)*128;
+
+        //  int colorB = SDL_GetTicks();
+        //  colorB = 1+sin(colorB*0.001)*128;
         
         
         // mainScreen->clear();
@@ -52,9 +54,8 @@ int main(int argc, char* argv[])
                                  colorR,colorG,colorB);
         }
         
-        // if(i>500)
+        
         mainScreen->boxBlur();
-        // i++;
         mainScreen->update();
         
         if(mainScreen->eventProcess() ==false)

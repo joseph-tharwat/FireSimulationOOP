@@ -12,6 +12,8 @@ private:
     double direction;
     // double xSpeed;
     // double ySpeed;
+private: 
+    void init();
 public:
     particles(bool random = false);
     particles(double xx, double yy);
